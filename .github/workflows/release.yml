@@ -25,7 +25,7 @@ jobs:
           name: review-package
           path: artifacts
       - name: Attest exact review ZIP
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: artifacts/*.zip
       - name: Publish immutable unsigned review candidate
