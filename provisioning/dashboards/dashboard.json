@@ -1,0 +1,172 @@
+{
+  "uid": "digitalrcs-panel-metrics-demo",
+  "title": "DigitalRCS \u2022 Dashboard execution",
+  "schemaVersion": 41,
+  "version": 1,
+  "editable": true,
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "refresh": "",
+  "panels": [
+    {
+      "id": 10,
+      "title": "Panel Metrics",
+      "type": "digitalrcs-panelmetrics-panel",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 26
+      },
+      "options": {
+        "view": "both",
+        "slowSeconds": 2,
+        "showSummary": true
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "targets": []
+    },
+    {
+      "id": 1,
+      "title": "Fast results",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "panel-metrics-testdata"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 26,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "scenarioId": "csv_content",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "panel-metrics-testdata"
+          },
+          "csvContent": "service,value\nsearch,42\nindex,17",
+          "delay": 0
+        }
+      ],
+      "options": {
+        "showHeader": true
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "Queued results (3 s)",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "panel-metrics-testdata"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 26,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "scenarioId": "slow_query",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "panel-metrics-testdata"
+          },
+          "csvContent": "service,value\nsearch,42\nindex,17",
+          "stringInput": "3s"
+        }
+      ],
+      "options": {
+        "showHeader": true
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "Slow results (8 s)",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "panel-metrics-testdata"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 34,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "scenarioId": "slow_query",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "panel-metrics-testdata"
+          },
+          "csvContent": "service,value\nsearch,42\nindex,17",
+          "stringInput": "8s"
+        }
+      ],
+      "options": {
+        "showHeader": true
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "title": "Query error",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "panel-metrics-testdata"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 34,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "scenarioId": "server_error_500",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "panel-metrics-testdata"
+          },
+          "csvContent": "service,value\nsearch,42\nindex,17",
+          "delay": 0,
+          "stringInput": ""
+        }
+      ],
+      "options": {
+        "showHeader": true
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    }
+  ]
+}

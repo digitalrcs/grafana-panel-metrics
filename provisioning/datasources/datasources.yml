@@ -1,0 +1,6 @@
+apiVersion: 1
+datasources:
+  - name: Metrics TestData
+    type: grafana-testdata-datasource
+    uid: panel-metrics-testdata
+    isDefault: true

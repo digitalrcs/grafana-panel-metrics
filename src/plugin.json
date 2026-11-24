@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "Panel Metrics",
+  "id": "digitalrcs-panelmetrics-panel",
+  "info": {
+    "keywords": [
+      "panel",
+      "performance",
+      "timing",
+      "metrics"
+    ],
+    "description": "Observe dashboard panel query duration, live loading states, execution summaries and source-group comparisons.",
+    "author": {
+      "name": "DigitalRCS"
+    },
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Project",
+        "url": "https://github.com/digitalrcs/grafana-panel-metrics"
+      },
+      {
+        "name": "Documentation",
+        "url": "https://github.com/digitalrcs/grafana-panel-metrics#readme"
+      },
+      {
+        "name": "Report an issue",
+        "url": "https://github.com/digitalrcs/grafana-panel-metrics/issues"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Panel execution table, duration chart and summary metrics",
+        "path": "img/dashboard-execution.png"
+      }
+    ],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=13.1.8",
+    "plugins": []
+  },
+  "skipDataQuery": true
+}

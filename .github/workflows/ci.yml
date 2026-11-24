@@ -1,0 +1,76 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:ci
+      - name: Dependency audit (high and critical gate)
+        run: npm audit --audit-level=high
+      - run: npm run build
+      - run: npm run package
+      - name: Validate initial unsigned review archive
+        run: npx --yes @grafana/plugin-validator@0.54.1 -jsonOutput artifacts/digitalrcs-panelmetrics-panel-1.0.0.zip | tee artifacts/validator.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: review-package
+          path: artifacts/
+      - uses: actions/upload-artifact@v7
+        with:
+          name: plugin-dist
+          path: dist/
+  browser:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        grafana: ['13.1.8', '13.2.4']
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v8
+        with:
+          name: plugin-dist
+          path: dist
+      - run: npx playwright install chromium --with-deps
+      - name: Start disposable Grafana
+        env:
+          GRAFANA_VERSION: ${{ matrix.grafana }}
+        run: docker compose up -d --build
+      - name: Wait for Grafana
+        run: |
+          for i in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:3025/api/health; then exit 0; fi
+            sleep 2
+          done
+          docker compose logs
+          exit 1
+      - run: npm run e2e
+      - name: Stop test server
+        if: always()
+        run: docker compose down
