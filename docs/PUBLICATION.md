@@ -2,7 +2,7 @@
 
 ## Status
 
-Public source and a first-review release are being prepared. Catalog approval, signature-level assignment, public signing and catalog installation are separate steps. None is implied by a passing build, public GitHub repository, unsigned release or provenance attestation.
+The public source repository is available at https://github.com/digitalrcs/grafana-panel-metrics. Automated validation evidence is recorded in [VALIDATION.md](VALIDATION.md). The versioned release workflow produces the first-review artifact. Catalog approval, signature-level assignment, public signing and catalog installation are separate steps. None is implied by a passing build, public GitHub repository, unsigned release or provenance attestation.
 
 ## Requirements and evidence
 

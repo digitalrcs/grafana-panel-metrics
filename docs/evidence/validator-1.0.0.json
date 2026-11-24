@@ -1,0 +1,14 @@
+{
+  "id": "digitalrcs-panelmetrics-panel",
+  "version": "1.0.0",
+  "plugin-validator": {
+    "manifest": [
+      {
+        "Severity": "warning",
+        "Title": "unsigned plugin",
+        "Detail": "This is a new (unpublished) plugin. This is expected during the initial review process. Please allow the review to continue, and a member of our team will inform you when your plugin can be signed.",
+        "Name": "unsigned-plugin"
+      }
+    ]
+  }
+}
