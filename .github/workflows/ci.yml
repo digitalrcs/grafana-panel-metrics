@@ -10,6 +10,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
         with:
@@ -27,7 +28,10 @@ jobs:
       - run: npm run build
       - run: npm run package
       - name: Validate initial unsigned review archive
-        run: npx --yes @grafana/plugin-validator@0.54.1 -jsonOutput artifacts/digitalrcs-panelmetrics-panel-1.0.0.zip | tee artifacts/validator.json
+        run: |
+          archive="artifacts/digitalrcs-panelmetrics-panel-$(node -p 'require("./package.json").version').zip"
+          npx --yes @grafana/plugin-validator@0.54.1 -jsonOutput "$archive" | tee artifacts/validator.json
+          node scripts/check-validator.mjs artifacts/validator.json
       - uses: actions/upload-artifact@v7
         with:
           name: review-package

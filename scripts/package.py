@@ -7,7 +7,12 @@ archive=out/f'{plugin_id}-{version}.zip'
 assert (root/'dist/module.js').is_file()
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
  for file in sorted((root/'dist').rglob('*')):
-  if file.is_file(): z.write(file,f'{plugin_id}/{file.relative_to(root / "dist").as_posix()}')
+  if file.is_file():
+   name=f'{plugin_id}/{file.relative_to(root / "dist").as_posix()}'
+   info=zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+   info.external_attr=0o100644 << 16
+   info.compress_type=zipfile.ZIP_DEFLATED
+   z.writestr(info,file.read_bytes())
 with zipfile.ZipFile(archive) as z:
  assert f'{plugin_id}/plugin.json' in z.namelist()
  assert all(n.startswith(plugin_id+'/') and '..' not in n.split('/') for n in z.namelist())
